@@ -1,8 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
 import "./App.css";
-import CheckConsole from "./components/tickets";
-import FilterOption from "./components/filterOption/filterOption";
+import TicketsContainer from "./components/TicketsContainer";
+import FilterOption from "./components/FilterOption";
 
 const filterOptionsArray = [
   { name: "all", text: "Все" },
@@ -16,7 +15,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <CheckConsole text={"ABC"} />
+        <TicketsContainer />
         <aside className="filter">
           <form>
             <h3>Количество пересадок</h3>
@@ -39,13 +38,4 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (store: any) => {
-  console.log(store);
-  return {
-    ticketsArray: store.ticketsArray,
-    tabs: store.tabs,
-    filter: store.filter
-  };
-};
-
-export default connect(mapStateToProps)(App);
+export default App;
