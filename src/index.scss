@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+
+html {
+  font-size: 1vw;
+  background-color: #e5e5e5;
+}
+
+html,
+body,
+#root,
+.App {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+}
+
+body {
+  width: 100%;
+  font-family: "Open Sans";
+  font-style: normal;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}

@@ -1,7 +1,7 @@
 import * as MyTypes from "MyTypes";
 import { actionTypes } from "../actions/ticketsActions";
 import TicketsItemProps from "../types/TicketItemProps";
-import dataJSON from "../data.json";
+import dataJSON from "../data/data.json";
 
 interface TicketsModel {
   ticketsList: TicketsItemProps[];
@@ -10,42 +10,42 @@ interface TicketsModel {
 export const initialState: TicketsModel = {
   ticketsList: [
     {
-      price: 59870,
-      carrier: "TG",
+      price: 83905,
+      carrier: "FV",
       segments: [
         {
           origin: "MOW",
           destination: "HKT",
-          date: "2020-02-04T08:43:00.000Z",
-          stops: ["KUL", "IST", "HKG"],
-          duration: 1657
+          date: "2020-02-05T14:31:00.000Z",
+          stops: ["DXB", "IST", "BKK"],
+          duration: 1523
         },
         {
           origin: "MOW",
           destination: "HKT",
-          date: "2020-02-24T15:54:00.000Z",
-          stops: ["IST", "BKK"],
-          duration: 806
+          date: "2020-02-25T03:45:00.000Z",
+          stops: ["SHA"],
+          duration: 964
         }
       ]
     },
     {
-      price: 72902,
-      carrier: "S7",
+      price: 80596,
+      carrier: "FV",
       segments: [
         {
           origin: "MOW",
           destination: "HKT",
-          date: "2020-02-04T05:13:00.000Z",
-          stops: [],
-          duration: 631
+          date: "2020-02-04T21:38:00.000Z",
+          stops: ["HKG"],
+          duration: 1758
         },
         {
           origin: "MOW",
           destination: "HKT",
-          date: "2020-02-23T23:25:00.000Z",
-          stops: ["DXB"],
-          duration: 1424
+          date: "2020-02-25T09:23:00.000Z",
+          stops: ["AUH"],
+          duration: 865
         }
       ]
     }

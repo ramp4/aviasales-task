@@ -1,7 +1,7 @@
 import * as React from "react";
 import TicketsItemProps from "../types/TicketItemProps";
-import { TicketsItem } from "./TicketsItem";
-
+import { TicketsItem } from "../components/TicketsItem";
+import "./TicketsContainer.scss";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
@@ -58,7 +58,7 @@ class TicketsContainer extends React.Component<
     }
 
     return (
-      <div>
+      <div className="tickets">
         {template}
         <input
           onChange={this.handleCountChange}
