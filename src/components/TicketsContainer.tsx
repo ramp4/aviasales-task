@@ -41,26 +41,27 @@ class TicketsContainer extends React.Component<
   };
 
   render() {
-    console.log("ticketList ", this.props.ticketsList);
     let template;
-    if (!this.props.ticketsList.length) {
+    if (this.props.ticketsList.length === 0) {
       template = <p>Nothing</p>;
     } else {
       template = this.props.ticketsList.map((item, idx) => {
         return (
-          <TicketsItem key={item.data.segments[0].duration} data={item.data} />
+          <TicketsItem
+            key={idx}
+            segments={item.segments}
+            price={item.price}
+            carrier={item.carrier}
+          />
         );
       });
-      console.log("temp___________", template);
     }
 
     return (
       <div>
         {template}
-
         <input
           onChange={this.handleCountChange}
-          placeholder={"Write count"}
           value={this.state.showTicketsCountInput}
         />
         <button onClick={this.handleButtonClick}>Show</button>
