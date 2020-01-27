@@ -1,9 +1,9 @@
 import { action } from "typesafe-actions";
 
-export enum actionTypes {
-  SHOW = "SHOW"
+export enum ticketsActionTypes {
+  SHOW_TICKETS = "SHOW_TICKETS "
 }
 
 export const ticketsActions = {
-  show: (count: number) => action(actionTypes.SHOW, count)
+  showTickets: (count: number) => action(ticketsActionTypes.SHOW_TICKETS, count)
 };

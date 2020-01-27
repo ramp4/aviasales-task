@@ -1,5 +1,5 @@
 import * as MyTypes from "MyTypes";
-import { actionTypes } from "../actions/ticketsActions";
+import { ticketsActionTypes } from "../actions/ticketsActions";
 import TicketsItemProps from "../types/TicketItemProps";
 import dataJSON from "../data/data.json";
 
@@ -57,7 +57,7 @@ export const ticketsReducer = (
   action: MyTypes.RootAction
 ) => {
   switch (action.type) {
-    case actionTypes.SHOW: {
+    case ticketsActionTypes.SHOW_TICKETS: {
       let newList = [...dataJSON[0].tickets];
       newList.length = action.payload;
       let result = newList;

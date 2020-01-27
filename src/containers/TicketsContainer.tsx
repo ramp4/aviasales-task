@@ -1,11 +1,12 @@
 import * as React from "react";
 import TicketsItemProps from "../types/TicketItemProps";
 import { TicketsItem } from "../components/TicketsItem";
-import "./TicketsContainer.scss";
+
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
-import { actionTypes } from "../actions/ticketsActions";
+import { ticketsActionTypes } from "../actions/ticketsActions";
+import "./TicketsContainer.scss";
 
 interface TicketsContainerState {
   showTicketsCountInput: number;
@@ -78,7 +79,7 @@ const MapStateToProps = (store: MyTypes.ReducerState) => {
 
 const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
   showTickets: (count: number) =>
-    dispatch({ type: actionTypes.SHOW, payload: count })
+    dispatch({ type: ticketsActionTypes.SHOW_TICKETS, payload: count })
 });
 
 export default connect(MapStateToProps, MapDispatchToProps)(TicketsContainer);
