@@ -1,55 +1,15 @@
-import * as MyTypes from "MyTypes";
 import { ticketsActionTypes } from "../actions/ticketsActions";
 import TicketsItemProps from "../types/TicketItemProps";
-import dataJSON from "../data/data.json";
+import * as MyTypes from "MyTypes";
 
 interface TicketsModel {
   ticketsList: TicketsItemProps[];
+  isFetching: boolean;
 }
 
 export const initialState: TicketsModel = {
-  ticketsList: [
-    {
-      price: 83905,
-      carrier: "FV",
-      segments: [
-        {
-          origin: "MOW",
-          destination: "HKT",
-          date: "2020-02-05T14:31:00.000Z",
-          stops: ["DXB", "IST", "BKK"],
-          duration: 1523
-        },
-        {
-          origin: "MOW",
-          destination: "HKT",
-          date: "2020-02-25T03:45:00.000Z",
-          stops: ["SHA"],
-          duration: 964
-        }
-      ]
-    },
-    {
-      price: 80596,
-      carrier: "FV",
-      segments: [
-        {
-          origin: "MOW",
-          destination: "HKT",
-          date: "2020-02-04T21:38:00.000Z",
-          stops: ["HKG"],
-          duration: 1758
-        },
-        {
-          origin: "MOW",
-          destination: "HKT",
-          date: "2020-02-25T09:23:00.000Z",
-          stops: ["AUH"],
-          duration: 865
-        }
-      ]
-    }
-  ]
+  ticketsList: [],
+  isFetching: false
 };
 
 export const ticketsReducer = (
@@ -57,14 +17,34 @@ export const ticketsReducer = (
   action: MyTypes.RootAction
 ) => {
   switch (action.type) {
-    case ticketsActionTypes.SHOW_TICKETS: {
-      let newList = [...dataJSON[0].tickets];
-      newList.length = action.payload;
-      let result = newList;
-      return {
-        ...state,
-        ticketsList: result
-      };
+    case ticketsActionTypes.GET_TICKETS_REQUEST: {
+      fetch("https://front-test.beta.aviasales.ru/search")
+        .then(r => {
+          return r.json();
+        })
+        .then(r => {
+          const { searchId } = r;
+
+          return searchId;
+        })
+        .then(id => {
+          fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${id}`)
+            .then(data => {
+              return data.json();
+            })
+            .then(result => {
+              const data = result.tickets;
+              return data;
+            });
+        });
+      return { ...state, isFetching: true };
+    }
+    case ticketsActionTypes.GET_TICKETS_SUCCESS: {
+      console.log("ыыыыы");
+      return state;
+    }
+    case ticketsActionTypes.SORT_BY_SOME: {
+      return state;
     }
     default:
       return state;

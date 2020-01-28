@@ -1,85 +1,64 @@
 import * as React from "react";
 import TicketsItemProps from "../types/TicketItemProps";
-import { TicketsItem } from "../components/TicketsItem";
-
+import { TicketsTemplate } from "../components/TicketsTemplate";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
 import { ticketsActionTypes } from "../actions/ticketsActions";
 import "./TicketsContainer.scss";
-
-interface TicketsContainerState {
-  showTicketsCountInput: number;
-}
-
 interface TicketsContainerProps {
   ticketsList: TicketsItemProps[];
-  showTickets: (count: number) => object;
+  isFetching: boolean;
+  getTickets: () => object;
+  sortBySome: (list: TicketsItemProps[], some: string) => object;
 }
 
-class TicketsContainer extends React.Component<
-  TicketsContainerProps,
-  TicketsContainerState
-> {
-  constructor(props: TicketsContainerProps) {
-    super(props);
-    this.state = {
-      showTicketsCountInput: +"0"
-    };
-  }
-
-  handleCountChange = (e: any) => {
-    this.setState({
-      showTicketsCountInput: e.target.value
-    });
+export const TicketsContainer: React.FC<TicketsContainerProps> = props => {
+  const handleTabClick = (e: any) => {
+    let some = e.currentTarget.id;
+    props.sortBySome(props.ticketsList, some);
   };
 
-  handleButtonClick = () => {
-    this.props.showTickets(this.state.showTicketsCountInput);
-    this.setState({
-      showTicketsCountInput: +"0"
-    });
-  };
-
-  render() {
-    let template;
-    if (this.props.ticketsList.length === 0) {
-      template = <p>Nothing</p>;
-    } else {
-      template = this.props.ticketsList.map((item, idx) => {
-        return (
-          <TicketsItem
-            key={idx}
-            segments={item.segments}
-            price={item.price}
-            carrier={item.carrier}
-          />
-        );
-      });
-    }
-
-    return (
-      <div className="tickets">
-        {template}
-        <input
-          onChange={this.handleCountChange}
-          value={this.state.showTicketsCountInput}
-        />
-        <button onClick={this.handleButtonClick}>Show</button>
+  return (
+    <section>
+      <div className="tabs">
+        <button className="cheap" id="cheap" onClick={handleTabClick}>
+          САМЫЙ ДЕШЕВЫЙ
+        </button>
+        <button className="fast" id="fast" onClick={handleTabClick}>
+          САМЫЙ БЫСТРЫЙ
+        </button>
       </div>
-    );
-  }
-}
+      <TicketsTemplate
+        onLoad={props.getTickets()}
+        isFetching={props.isFetching}
+      />
+    </section>
+  );
+};
 
 const MapStateToProps = (store: MyTypes.ReducerState) => {
   return {
-    ticketsList: store.tickets.ticketsList
+    ticketsList: store.tickets.ticketsList,
+    filterOptions: store.filter.filterOptions,
+    isFetching: store.tickets.isFetching
   };
 };
 
 const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
-  showTickets: (count: number) =>
-    dispatch({ type: ticketsActionTypes.SHOW_TICKETS, payload: count })
+  getTickets: () => dispatch({ type: ticketsActionTypes.GET_TICKETS_REQUEST }),
+  sortBySome: (list: TicketsItemProps[], some: string) =>
+    dispatch({
+      type: ticketsActionTypes.SORT_BY_SOME,
+      payload: {
+        list,
+        some
+      }
+    }),
+  getTicketsSuccess: () =>
+    dispatch({
+      type: ticketsActionTypes.GET_TICKETS_SUCCESS
+    })
 });
 
 export default connect(MapStateToProps, MapDispatchToProps)(TicketsContainer);
