@@ -5,11 +5,13 @@ import * as MyTypes from "MyTypes";
 interface TicketsModel {
   ticketsList: TicketsItemProps[];
   isFetching: boolean;
+  isFailed: boolean;
 }
 
 export const initialState: TicketsModel = {
   ticketsList: [],
-  isFetching: false
+  isFetching: false,
+  isFailed: false
 };
 
 export const ticketsReducer = (
@@ -18,30 +20,13 @@ export const ticketsReducer = (
 ) => {
   switch (action.type) {
     case ticketsActionTypes.GET_TICKETS_REQUEST: {
-      fetch("https://front-test.beta.aviasales.ru/search")
-        .then(r => {
-          return r.json();
-        })
-        .then(r => {
-          const { searchId } = r;
-
-          return searchId;
-        })
-        .then(id => {
-          fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${id}`)
-            .then(data => {
-              return data.json();
-            })
-            .then(result => {
-              const data = result.tickets;
-              return data;
-            });
-        });
       return { ...state, isFetching: true };
     }
     case ticketsActionTypes.GET_TICKETS_SUCCESS: {
-      console.log("ыыыыы");
-      return state;
+      return { ...state, ticketsList: action.payload, isFetching: false };
+    }
+    case ticketsActionTypes.GET_TICKETS_FAIL: {
+      return { ...state, isFailed: true, isFetching: false };
     }
     case ticketsActionTypes.SORT_BY_SOME: {
       return state;

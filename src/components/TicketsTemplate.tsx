@@ -4,9 +4,9 @@ import "./TicketsItem.scss";
 import { TicketsItem } from "../components/TicketsItem";
 
 interface TicketsListProps {
-  ticketList?: TicketsItemProps[];
+  ticketsList: TicketsItemProps[];
   isFetching: boolean;
-  onLoad: any;
+  isFailed: boolean;
 }
 
 export const TicketsTemplate: React.FC<TicketsListProps> = props => {
@@ -14,17 +14,21 @@ export const TicketsTemplate: React.FC<TicketsListProps> = props => {
     let template;
     if (props.isFetching) {
       template = <p>Загружаю...</p>;
+    }
+    if (props.isFailed) {
+      template = <p>Не удалось загрузить данные</p>;
     } else {
-      // template = props.ticketsList.map((item, idx) => {
-      //   return (
-      //     <TicketsItem
-      //       key={idx}
-      //       segments={item.segments}
-      //       price={item.price}
-      //       carrier={item.carrier}
-      //     />
-      //   );
-      // });
+      console.log(props.ticketsList);
+      template = props.ticketsList.map((item, idx) => {
+        return (
+          <TicketsItem
+            key={idx}
+            segments={item.segments}
+            price={item.price}
+            carrier={item.carrier}
+          />
+        );
+      });
     }
     return template;
   };
