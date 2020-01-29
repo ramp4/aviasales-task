@@ -33,12 +33,11 @@ export const TicketsTemplate: React.FC<TicketsListProps> = props => {
 
     if (stopsCount !== -1) {
       ticketsList.map((item, i) => {
-        let bePushed = false;
-        item.segments.map((segment, j) => {
-          if (segment.stops.length === +stopsCount) {
-            bePushed = true;
-            return segment;
+        let bePushed = item.segments.every((segment, j) => {
+          if (segment.stops.length <= +stopsCount) {
+            return true;
           }
+          return false;
         });
         if (bePushed) newTicketList.push(item);
       });
@@ -48,7 +47,7 @@ export const TicketsTemplate: React.FC<TicketsListProps> = props => {
     return newTicketList;
   };
 
-  function partition(
+  function partitionCheap(
     array: Array<TicketsItemProps>,
     left: number = 0,
     right: number = array.length - 1
@@ -67,7 +66,45 @@ export const TicketsTemplate: React.FC<TicketsListProps> = props => {
       }
 
       if (i <= j) {
-        [array[i].price, array[j].price] = [array[j].price, array[i].price];
+        [array[i], array[j]] = [array[j], array[i]];
+        i++;
+        j--;
+      }
+    }
+
+    return i;
+  }
+
+  function partitionSpeed(
+    array: Array<TicketsItemProps>,
+    left: number = 0,
+    right: number = array.length - 1
+  ) {
+    function item(index: number) {
+      const result =
+        (array[index].segments[0].duration +
+          array[index].segments[1].duration) /
+        2;
+      return result;
+    }
+    const pivot =
+      (array[Math.floor((right + left) / 2)].segments[0].duration +
+        array[Math.floor((right + left) / 2)].segments[1].duration) /
+      2;
+    let i = left;
+    let j = right;
+
+    while (i <= j) {
+      while (item(i) < pivot) {
+        i++;
+      }
+
+      while (item(j) > pivot) {
+        j--;
+      }
+
+      if (i <= j) {
+        [array[i], array[j]] = [array[j], array[i]];
         i++;
         j--;
       }
@@ -82,25 +119,33 @@ export const TicketsTemplate: React.FC<TicketsListProps> = props => {
     right: number = array.length - 1
   ) {
     let index;
+    if (props.cheap) {
+      if (array.length > 1) {
+        index = partitionCheap(array, left, right);
 
-    if (array.length > 1) {
-      index = partition(array, left, right);
+        if (left < index - 1) {
+          quickSort(array, left, index - 1);
+        }
 
-      if (left < index - 1) {
-        quickSort(array, left, index - 1);
+        if (index < right) {
+          quickSort(array, index, right);
+        }
+      }
+    } else {
+      if (array.length > 1) {
+        index = partitionSpeed(array, left, right);
+
+        if (left < index - 1) {
+          quickSort(array, left, index - 1);
+        }
+
+        if (index < right) {
+          quickSort(array, index, right);
+        }
       }
 
-      if (index < right) {
-        quickSort(array, index, right);
-      }
+      return array;
     }
-
-    return array;
   }
-
-  const { cheap } = props;
-  if (cheap) {
-  }
-
   return <div className="tickets-template">{renderTemplate()}</div>;
 };

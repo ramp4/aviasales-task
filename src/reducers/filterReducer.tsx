@@ -57,7 +57,7 @@ export const filterReducer = (
         case 2: {
           newFilterOptions = {
             all: false,
-            non_stop: false,
+            non_stop: true,
             one_stop: true,
             two_stop: false,
             three_stop: false
@@ -68,8 +68,8 @@ export const filterReducer = (
         case 3: {
           newFilterOptions = {
             all: false,
-            non_stop: false,
-            one_stop: false,
+            non_stop: true,
+            one_stop: true,
             two_stop: true,
             three_stop: false
           };
@@ -78,10 +78,10 @@ export const filterReducer = (
         }
         case 4: {
           newFilterOptions = {
-            all: false,
-            non_stop: false,
-            one_stop: false,
-            two_stop: false,
+            all: true,
+            non_stop: true,
+            one_stop: true,
+            two_stop: true,
             three_stop: true
           };
           stopsCount = 3;
