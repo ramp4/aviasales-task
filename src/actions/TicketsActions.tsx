@@ -14,8 +14,8 @@ export const ticketsActions = {
   getTicketsSuccess: (list: TicketsItemProps[]) =>
     action(ticketsActionTypes.GET_TICKETS_SUCCESS, list),
   getTicketsFail: () => action(ticketsActionTypes.GET_TICKETS_FAIL),
-  sortBySome: (list: TicketsItemProps[], some: string) =>
-    action(ticketsActionTypes.SORT_BY_SOME, { list, some })
+  sortBySome: (some: string) =>
+    action(ticketsActionTypes.SORT_BY_SOME, { some })
 };
 
 // const fetchData = () => {

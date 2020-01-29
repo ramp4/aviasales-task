@@ -23,25 +23,14 @@ export const initialState: filterModel = {
   }
 };
 
-function filterTicketList(stopsCount: number, ticketList: TicketsItemProps[]) {
-  let newTicketList;
-  return (newTicketList = ticketList.map((item, i) => {
-    item.segments.map((segment, j) => {
-      if (segment.stops.length === stopsCount) {
-        return segment;
-      }
-    });
-  }));
-}
-
 export const filterReducer = (
   state: filterModel = initialState,
   action: MyTypes.RootAction
 ) => {
   switch (action.type) {
     case filterActionsTypes.SET_FILTER_OPTION: {
-      let newTicketsList;
       let newFilterOptions;
+      let stopsCount;
       switch (+action.payload.clickedIndex) {
         case 0: {
           newFilterOptions = {
@@ -51,7 +40,7 @@ export const filterReducer = (
             two_stop: true,
             three_stop: true
           };
-          newTicketsList = filterTicketList(0, action.payload.ticketsList);
+          stopsCount = -1;
           break;
         }
         case 1: {
@@ -62,7 +51,7 @@ export const filterReducer = (
             two_stop: false,
             three_stop: false
           };
-          newTicketsList = filterTicketList(0, action.payload.ticketsList);
+          stopsCount = 0;
           break;
         }
         case 2: {
@@ -73,7 +62,7 @@ export const filterReducer = (
             two_stop: false,
             three_stop: false
           };
-          newTicketsList = filterTicketList(1, action.payload.ticketsList);
+          stopsCount = 1;
           break;
         }
         case 3: {
@@ -84,7 +73,7 @@ export const filterReducer = (
             two_stop: true,
             three_stop: false
           };
-          newTicketsList = filterTicketList(2, action.payload.ticketsList);
+          stopsCount = 2;
           break;
         }
         case 4: {
@@ -95,16 +84,24 @@ export const filterReducer = (
             two_stop: false,
             three_stop: true
           };
-          newTicketsList = filterTicketList(3, action.payload.ticketsList);
+          stopsCount = 3;
           break;
         }
         default: {
+          newFilterOptions = {
+            all: true,
+            non_stop: true,
+            one_stop: true,
+            two_stop: true,
+            three_stop: true
+          };
         }
       }
 
       return {
         ...state,
-        filterOptions: newFilterOptions
+        filterOptions: newFilterOptions,
+        stopsCount: stopsCount
       };
     }
     default: {

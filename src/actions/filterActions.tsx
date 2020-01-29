@@ -7,14 +7,9 @@ export enum filterActionsTypes {
 }
 
 export const filterActions = {
-  setOptions: (
-    filterOptions: OptionsModel,
-    ticketsList: TicketsItemProps[],
-    clickedIndex: number
-  ) =>
+  setOptions: (filterOptions: OptionsModel, clickedIndex: number) =>
     action(filterActionsTypes.SET_FILTER_OPTION, {
       filterOptions,
-      ticketsList,
       clickedIndex
     })
 };

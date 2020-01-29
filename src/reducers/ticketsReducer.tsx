@@ -6,12 +6,14 @@ interface TicketsModel {
   ticketsList: TicketsItemProps[];
   isFetching: boolean;
   isFailed: boolean;
+  cheap: boolean;
 }
 
 export const initialState: TicketsModel = {
   ticketsList: [],
   isFetching: false,
-  isFailed: false
+  isFailed: false,
+  cheap: true
 };
 
 export const ticketsReducer = (
@@ -23,13 +25,19 @@ export const ticketsReducer = (
       return { ...state, isFetching: true };
     }
     case ticketsActionTypes.GET_TICKETS_SUCCESS: {
-      return { ...state, ticketsList: action.payload, isFetching: false };
+      return {
+        ...state,
+        ticketsList: action.payload,
+        isFetching: false
+      };
     }
     case ticketsActionTypes.GET_TICKETS_FAIL: {
       return { ...state, isFailed: true, isFetching: false };
     }
     case ticketsActionTypes.SORT_BY_SOME: {
-      return state;
+      let cheap = true;
+      if (action.payload.some === "fast") cheap = false;
+      return { ...state, cheap: cheap };
     }
     default:
       return state;

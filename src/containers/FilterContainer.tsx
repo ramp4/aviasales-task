@@ -6,22 +6,15 @@ import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
 import { OptionsModel } from "../reducers/filterReducer";
 import { filterActionsTypes } from "../actions/filterActions";
-import TicketsItemProps from "../types/TicketItemProps";
-
 interface FilterContainerProps {
   filterOptions: OptionsModel;
-  ticketsList: TicketsItemProps[];
-  setOptions: (
-    filterOptions: OptionsModel,
-    ticketsList: TicketsItemProps[],
-    clickedIndex: number
-  ) => object;
+  setOptions: (filterOptions: OptionsModel, clickedIndex: number) => object;
 }
 
 const FilterContainer: React.FC<FilterContainerProps> = props => {
   const handleOptionChange = (e: any) => {
     let { id } = e.currentTarget;
-    props.setOptions(props.filterOptions, props.ticketsList, id);
+    props.setOptions(props.filterOptions, id);
   };
 
   return (
@@ -45,22 +38,16 @@ const FilterContainer: React.FC<FilterContainerProps> = props => {
 
 const MapStateToProps = (store: MyTypes.ReducerState) => {
   return {
-    ticketsList: store.tickets.ticketsList,
     filterOptions: store.filter.filterOptions
   };
 };
 
 const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
-  setOptions: (
-    filterOptions: OptionsModel,
-    ticketsList: TicketsItemProps[],
-    clickedIndex: number
-  ) =>
+  setOptions: (filterOptions: OptionsModel, clickedIndex: number) =>
     dispatch({
       type: filterActionsTypes.SET_FILTER_OPTION,
       payload: {
         filterOptions,
-        ticketsList,
         clickedIndex
       }
     })
