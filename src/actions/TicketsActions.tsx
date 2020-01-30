@@ -1,6 +1,5 @@
 import { action } from "typesafe-actions";
 import TicketsItemProps from "../types/TicketItemProps";
-import { act } from "react-dom/test-utils";
 
 export enum ticketsActionTypes {
   GET_TICKETS_REQUEST = "GET_TICKETS_REQUEST",

@@ -2,7 +2,6 @@ import * as React from "react";
 import TicketsItemProps from "../types/TicketItemProps";
 import "./TicketsItem.scss";
 import { TicketsItem } from "../components/TicketsItem";
-import { ticketsReducer } from "../reducers/ticketsReducer";
 
 interface TicketsListProps {
   ticketsList: TicketsItemProps[];
@@ -42,7 +41,6 @@ export const TicketsTemplate: React.FC<TicketsListProps> = props => {
         if (bePushed) newTicketList.push(item);
       });
     } else newTicketList = ticketsList;
-    console.log(newTicketList);
     quickSort(newTicketList);
     return newTicketList;
   };
