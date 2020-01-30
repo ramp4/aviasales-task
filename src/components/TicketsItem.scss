@@ -52,15 +52,22 @@ $gray: #A0B0B9;
     .duration,
     .stops {
       width: 30%;
-
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      height: 3rem;
       font-size: 1rem;
 
       .title {
         color: $gray;
+        width: 100%;
       }
 
       .info {
         color: #4A4A4A;
+        font-weight: 600;
       }
     }
   }

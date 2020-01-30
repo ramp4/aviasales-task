@@ -122,6 +122,7 @@ const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
               type: ticketsActionTypes.GET_TICKETS_SUCCESS,
               payload: data
             });
+            console.log(data);
             return data;
           })
           .catch(date => {

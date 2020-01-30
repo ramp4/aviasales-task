@@ -1,12 +1,57 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 
 html {
-  font-size: 1.56vw;
   background-color: #e5e5e5;
 }
 
 @media (min-width: 1440px) {
   html {
-    font-size: 14px;
+    font-size: 1vw;
+  }
+}
+
+@media (max-width: 1440px) {
+  html {
+    font-size: 1.5vw;
+  }
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 2vw;
+  }
+
+  .filter {
+    width: 35% !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 3.8vw;
+  }
+
+  .App_logo {
+    min-width: 50vw !important;
+    height: 50vw !important;
+    background-size: 100%;
+    margin: 0;
+  }
+
+  .filter {
+    width: 90% !important;
+  }
+
+  .main {
+    width: 90% !important;
+  }
+
+  .tabs {
+    margin-top: 1.66rem;
+  }
+
+
+  .ticket {
+    padding: 0.5rem !important;
   }
 }
