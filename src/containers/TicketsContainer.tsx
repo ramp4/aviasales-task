@@ -1,12 +1,19 @@
 import * as React from "react";
 import TicketsItemProps from "../types/TicketItemProps";
+
 import { TicketsTemplate } from "../components/TicketsTemplate";
+
 import { connect } from "react-redux";
+
 import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
+
 import { ticketsActionTypes } from "../actions/ticketsActions";
 import "./TicketsContainer.scss";
+
 import { OptionsModel } from "../reducers/filterReducer";
+import Tab from "../components/Tab";
+
 interface TicketsContainerProps {
   ticketsList: TicketsItemProps[];
   isFetching: boolean;
@@ -22,30 +29,43 @@ class TicketsContainer extends React.Component<TicketsContainerProps> {
     super(props);
     this.props.getTickets();
   }
+
   handleTabClick = (e: any) => {
     let some = e.currentTarget.id;
+    e.preventDefault();
     this.props.sortBySome(some);
   };
 
   render() {
     const fetchingTemplate = () => {
       let template;
+
       if (this.props.isFetching) {
         template = <p>Загружаю...</p>;
       } else if (this.props.isFailed) {
         template = <p>Не удалось загрузить данные</p>;
       }
+
       return template;
     };
+
     return (
-      <section>
+      <main className="main">
         <div className="tabs">
-          <button className="cheap" id="cheap" onClick={this.handleTabClick}>
-            САМЫЙ ДЕШЕВЫЙ
-          </button>
-          <button className="fast" id="fast" onClick={this.handleTabClick}>
-            САМЫЙ БЫСТРЫЙ
-          </button>
+          <Tab
+            onClickHandler={this.handleTabClick}
+            id="cheap"
+            key="cheap"
+            innerText="САМЫЙ ДЕШЕВЫЙ"
+            classType="selected"
+          />
+          <Tab
+            onClickHandler={this.handleTabClick}
+            id="fast"
+            key="fast"
+            innerText="САМЫЙ БЫСТРЫЙ"
+            classType="deselected"
+          />
         </div>
         {fetchingTemplate()}
         <TicketsTemplate
@@ -53,7 +73,7 @@ class TicketsContainer extends React.Component<TicketsContainerProps> {
           cheap={this.props.cheap}
           options={this.props.filterOptions}
         />
-      </section>
+      </main>
     );
   }
 }
@@ -77,7 +97,10 @@ const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
       }
     }),
   getTickets: () => {
-    dispatch({ type: ticketsActionTypes.GET_TICKETS_REQUEST });
+    dispatch({
+      type: ticketsActionTypes.GET_TICKETS_REQUEST
+    });
+
     return fetch("https://front-test.beta.aviasales.ru/search")
       .then(r => {
         return r.json();
@@ -92,14 +115,16 @@ const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
             return data.json();
           })
           .then(result => {
-            const data = result.tickets;
+            let data = result.tickets;
+            // data.length = 5;
+
             dispatch({
               type: ticketsActionTypes.GET_TICKETS_SUCCESS,
               payload: data
             });
             return data;
           })
-          .catch(() => {
+          .catch(date => {
             dispatch({
               type: ticketsActionTypes.GET_TICKETS_FAIL
             });

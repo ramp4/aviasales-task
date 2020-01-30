@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import "./FilterOption.scss";
 interface FilterOptionProps {
   id: string;
   name: string;
@@ -10,10 +10,10 @@ interface FilterOptionProps {
 
 const FilterOption: React.FC<FilterOptionProps> = props => {
   return (
-    <label className={props.name}>
+    <label className={`${props.name} filter_option`}>
       <input
         id={props.id}
-        className={`${props.name}__option`}
+        className={`${props.name}__option filter_checkbox`}
         type="checkbox"
         name={`${props.name}__option`}
         value={props.name}

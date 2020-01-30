@@ -16,15 +16,3 @@ export const ticketsActions = {
   sortBySome: (some: string) =>
     action(ticketsActionTypes.SORT_BY_SOME, { some })
 };
-
-// const fetchData = () => {
-//   return dispatch => {
-//     dispatch(getTickets());
-//     fetch("https://dog.ceo/api/breeds/image/random")
-//       .then(res => res.json())
-//       .then(
-//         data => dispatch(requestDogSuccess(data)),
-//         err => dispatch(requestDogError())
-//       );
-//   };
-// };

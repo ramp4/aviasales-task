@@ -56,13 +56,30 @@ export const filterReducer = (
       };
       switch (+action.payload.clickedIndex) {
         case 0: {
-          newFilterOptions = {
-            all: true,
-            non_stop: true,
-            one_stop: true,
-            two_stop: true,
-            three_stop: true
-          };
+          if (
+            Object.entries(action.payload.filterOptions).every(
+              (item, index) => {
+                if (item[1] === true) return true;
+                return false;
+              }
+            )
+          ) {
+            newFilterOptions = {
+              all: false,
+              non_stop: false,
+              one_stop: false,
+              two_stop: false,
+              three_stop: false
+            };
+          } else
+            newFilterOptions = {
+              all: true,
+              non_stop: true,
+              one_stop: true,
+              two_stop: true,
+              three_stop: true
+            };
+
           break;
         }
         case 1: {

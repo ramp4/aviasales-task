@@ -1,6 +1,11 @@
 $blue: #2196f3;
 $green: #9dc826;
 $indent: 1.66rem;
+$gray: #A0B0B9;
+
+.tickets-template {
+  margin-top: 1.66rem;
+}
 
 .ticket {
   display: flex;
@@ -13,7 +18,8 @@ $indent: 1.66rem;
   background: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  margin-top: $indent;
+  margin-bottom: $indent;
+
   p {
     margin: 0;
   }
@@ -27,11 +33,11 @@ $indent: 1.66rem;
   }
 
   .ticket__carrier {
-    width: 50%;
-    font-weight: 600;
-    font-size: 2rem;
-    line-height: 2rem;
-    color: $green;
+    width: 25%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    margin-right: 5%;
   }
 
   .segment {
@@ -42,8 +48,20 @@ $indent: 1.66rem;
     justify-content: space-between;
     padding-top: $indent/2;
 
-    .flight, .duration, .stops {
+    .flight,
+    .duration,
+    .stops {
       width: 30%;
+
+      font-size: 1rem;
+
+      .title {
+        color: $gray;
+      }
+
+      .info {
+        color: #4A4A4A;
+      }
     }
   }
 }

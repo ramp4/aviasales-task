@@ -1,0 +1,47 @@
+.App {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+html,
+body,
+#root,
+.App {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  width: 100%;
+  font-family: "Open Sans";
+  font-style: normal;
+}
+
+@media (min-width: 1440px) {
+  .App {
+    width: 900px;
+    margin: 0 auto;
+  }
+}
+
+
+.main {
+  width: 56%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.App_logo {
+  width: 7vw;
+  height: 7vw;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-left: 40%;
+  padding-right: 40%;
+  padding-top: 3%;
+   padding-bottom: 3%;
+}

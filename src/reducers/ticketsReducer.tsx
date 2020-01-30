@@ -35,11 +35,28 @@ export const ticketsReducer = (
       return { ...state, isFailed: true, isFetching: false };
     }
     case ticketsActionTypes.SORT_BY_SOME: {
-      let cheap = true;
-      if (action.payload.some === "fast") cheap = false;
-      return { ...state, cheap: cheap };
+      let { cheap } = state;
+      const { some } = action.payload;
+
+      const someEl = document.querySelector(`#${some}`);
+
+      someEl?.classList.toggle("selected");
+      makeDeselectOther(cheap, some);
+      return { ...state, cheap: !cheap };
     }
     default:
       return state;
+  }
+};
+
+const makeDeselectOther = (cheap: boolean, some: string) => {
+  if (some === "fast") {
+    cheap = false;
+    const otherEl = document.querySelector(`#cheap`);
+    otherEl?.classList.toggle("selected");
+  } else {
+    cheap = true;
+    const otherEl = document.querySelector(`#fast`);
+    otherEl?.classList.toggle("selected");
   }
 };

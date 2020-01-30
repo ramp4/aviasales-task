@@ -15,7 +15,7 @@ export const TicketsItem: React.FC<TicketsItemProps> = props => {
       let hh = 0;
       let startHH = +roundedDep.slice(0, 2);
       let finishHH = +roundedArr.slice(0, 2);
-      let mm = 0;
+      let mm: string | number = 0;
 
       let startMM = +roundedDep.slice(3, 5);
       let finishMM = +roundedArr.slice(3, 5);
@@ -44,6 +44,10 @@ export const TicketsItem: React.FC<TicketsItemProps> = props => {
       if (dd > 0) {
         dd = `${dd}д`;
       } else dd = "";
+
+      if (mm < 10) {
+        mm = `0${mm}`;
+      }
       return `${dd} ${hh}ч ${mm}м`;
     }
     return `${roundedDep} - ${roundedArr}`;
@@ -60,17 +64,33 @@ export const TicketsItem: React.FC<TicketsItemProps> = props => {
     return result;
   };
 
+  const renderStops = (stops: number) => {
+    let postTemplate;
+    if (stops === 0) {
+      postTemplate = "пересадок";
+    } else if (stops === 1) {
+      postTemplate = "пересадка";
+    } else {
+      postTemplate = "пересадки";
+    }
+    return `${stops} ${postTemplate}`;
+  };
+
   return (
     <div className="ticket">
       <p className="ticket__price">{`${props.price} Р`}</p>
-      <p className="ticket__carrier">{`Перевозчик ${props.carrier}`}</p>
+      <img
+        className="ticket__carrier"
+        src={`http://pics.avs.io/440/144/${props.carrier}.png`}
+        alt={props.carrier}
+      ></img>
       {props.segments.map((item, index) => {
         return (
           <div key={index} className="segment">
             <p className="flight">
-              <span className="flight__way">{`${props.segments[index].origin} - ${props.segments[index].destination}`}</span>
+              <span className="flight__title title">{`${props.segments[index].origin} - ${props.segments[index].destination}`}</span>
               <br />
-              <span className="flight__time">
+              <span className="flight__info info">
                 {appearDate(
                   props.segments[index].date,
                   props.segments[index].duration,
@@ -79,9 +99,9 @@ export const TicketsItem: React.FC<TicketsItemProps> = props => {
               </span>
             </p>
             <p className="duration">
-              <span className="duration__title">В ПУТИ </span>
+              <span className="duration__title title ">В ПУТИ </span>
               <br />
-              <span className="duration__time">
+              <span className="duration__info info">
                 {appearDate(
                   props.segments[index].date,
                   props.segments[index].duration,
@@ -90,9 +110,11 @@ export const TicketsItem: React.FC<TicketsItemProps> = props => {
               </span>
             </p>
             <p className="stops">
-              <span className="stops__title">{`Количество пересадок: ${props.segments[index].stops.length}`}</span>
+              <span className="stops__title title">
+                {renderStops(props.segments[index].stops.length)}
+              </span>
               <br />
-              <span className="stops__names">
+              <span className="stops__info info">
                 {props.segments[index].stops.join(", ")}
               </span>
             </p>

@@ -6,6 +6,7 @@ import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
 import { OptionsModel } from "../reducers/filterReducer";
 import { filterActionsTypes } from "../actions/filterActions";
+import "./FilterContainer.scss";
 interface FilterContainerProps {
   filterOptions: OptionsModel;
   setOptions: (filterOptions: OptionsModel, clickedIndex: number) => object;
@@ -19,7 +20,7 @@ const FilterContainer: React.FC<FilterContainerProps> = props => {
 
   return (
     <aside className="filter">
-      <h3>Количество пересадок</h3>
+      <h3 className="filter_title">Количество пересадок</h3>
       {Object.entries(props.filterOptions).map((item, index) => {
         return (
           <FilterOption
