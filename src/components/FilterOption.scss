@@ -1,18 +1,18 @@
 .filter_option {
-  font-size:1.25rem;
-  line-height: 2.75rem;
-  width: 100%;
-  text-indent: 1.66rem;
-  cursor: pointer;
-  &:hover {
-    background: #F1FCFF;
-  }
+    font-size: 1.25rem;
+    line-height: 2.75rem;
+    width: 100%;
+    text-indent: 1.66rem;
+
+    &:hover {
+        background: #F1FCFF;
+    }
 }
 
 .filter_checkbox {
-  position: relative;
-  bottom: -0.225rem;
-  height: 1.25rem;
-  width: 1.25rem;
-  color: red;
+    position: relative;
+    bottom: -0.225rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    cursor: pointer;
 }
