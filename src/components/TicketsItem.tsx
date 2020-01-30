@@ -1,7 +1,7 @@
 import * as React from "react";
 import TicketsItemProps from "../types/TicketItemProps";
 import "./TicketsItem.scss";
-import moment from "moment";
+import moment, { Moment } from "moment";
 
 export const TicketsItem: React.FC<TicketsItemProps> = props => {
   function appearDate(date: string, duration: number, durationDif: boolean) {
@@ -49,14 +49,11 @@ export const TicketsItem: React.FC<TicketsItemProps> = props => {
     return `${roundedDep} - ${roundedArr}`;
   }
 
-  const roundMinutes = (date: any) => {
+  const roundMinutes = (date: Moment) => {
     let mm: any = +date.format("mm");
-    let dif: any = 5 - (+date.format("mm") % 5);
-    if (mm + dif === 60) {
-      dif = dif - 10;
-    }
-    if (mm !== 0) {
-      mm = mm + dif;
+    mm = Math.floor(mm / 5) * 5;
+    if (mm < 10) {
+      mm = `0${mm}`;
     }
     let hh = date.format("HH");
     let result = `${hh}:${mm}`;

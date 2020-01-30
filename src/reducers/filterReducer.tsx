@@ -33,7 +33,6 @@ export const filterReducer = (
       const checkAll = () => {
         if (
           Object.entries(newFilterOptions).every((item, i) => {
-            console.log(item[1]);
             if (i === 0) {
               return true;
             } else if (item[1] === true) {

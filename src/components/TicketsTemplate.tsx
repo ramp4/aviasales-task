@@ -35,15 +35,15 @@ export const TicketsTemplate: React.FC<TicketsListProps> = props => {
     let { options } = props;
     let { ticketsList } = props;
 
+    // eslint-disable-next-line array-callback-return
     let stopCounts = Object.entries(options).map((item, i) => {
       if (item[1] === true) {
         if (i !== 0) {
           return i - 1;
         }
+        return null;
       }
     });
-
-    console.log(stopCounts);
 
     let newTicketList: TicketsItemProps[] = [];
 
