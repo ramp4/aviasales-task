@@ -11,18 +11,17 @@ interface FilterOptionProps {
 
 const FilterOption: React.FC<FilterOptionProps> = props => {
   return (
-    <div className={`${props.name} filter_option control-group`}>
+    <div className={`${props.name} filter_option`}>
+      <input
+        id={props.id}
+        className={`${props.name}__option filter_checkbox checkbox`}
+        type="checkbox"
+        name={`${props.name}__option`}
+        value={props.name}
+        onChange={props.onChange}
+        checked={props.checked}
+      />
       <label htmlFor={props.id} className="control-checkbox control">
-        <div className="control_indicator"></div>
-        <input
-          id={props.id}
-          className={`${props.name}__option filter_checkbox checkbox`}
-          type="checkbox"
-          name={`${props.name}__option`}
-          value={props.name}
-          onChange={props.onChange}
-          checked={props.checked}
-        />
         {props.text}
       </label>
     </div>
