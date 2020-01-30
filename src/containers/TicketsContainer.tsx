@@ -6,12 +6,13 @@ import { Dispatch } from "redux";
 import * as MyTypes from "MyTypes";
 import { ticketsActionTypes } from "../actions/ticketsActions";
 import "./TicketsContainer.scss";
+import { OptionsModel } from "../reducers/filterReducer";
 interface TicketsContainerProps {
-  stopsCount: number;
   ticketsList: TicketsItemProps[];
   isFetching: boolean;
   isFailed: boolean;
   cheap: boolean;
+  filterOptions: OptionsModel;
   sortBySome: (some: string) => object;
   getTickets: () => object;
 }
@@ -26,28 +27,7 @@ class TicketsContainer extends React.Component<TicketsContainerProps> {
     this.props.sortBySome(some);
   };
 
-  applyFilter() {
-    let { stopsCount, ticketsList } = this.props;
-    let newTicketList: TicketsItemProps[] = [];
-    if (stopsCount !== -1) {
-      ticketsList.map((item, i) => {
-        let bePushed = false;
-        item.segments.map((segment, j) => {
-          if (segment.stops.length === +stopsCount) {
-            bePushed = true;
-            return segment;
-          }
-        });
-        if (bePushed) newTicketList.push(item);
-      });
-    }
-    newTicketList = ticketsList;
-    return newTicketList;
-  }
-
   render() {
-    const newTicketList = this.applyFilter();
-
     const fetchingTemplate = () => {
       let template;
       if (this.props.isFetching) {
@@ -69,9 +49,9 @@ class TicketsContainer extends React.Component<TicketsContainerProps> {
         </div>
         {fetchingTemplate()}
         <TicketsTemplate
-          ticketsList={newTicketList}
-          stopsCount={this.props.stopsCount}
+          ticketsList={this.props.ticketsList}
           cheap={this.props.cheap}
+          options={this.props.filterOptions}
         />
       </section>
     );
@@ -81,7 +61,7 @@ class TicketsContainer extends React.Component<TicketsContainerProps> {
 const MapStateToProps = (store: MyTypes.ReducerState) => {
   return {
     ticketsList: store.tickets.ticketsList,
-    stopsCount: store.filter.stopsCount,
+    filterOptions: store.filter.filterOptions,
     isFetching: store.tickets.isFetching,
     isFailed: store.tickets.isFailed,
     cheap: store.tickets.cheap

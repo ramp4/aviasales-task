@@ -2,46 +2,67 @@ import * as React from "react";
 import TicketsItemProps from "../types/TicketItemProps";
 import "./TicketsItem.scss";
 import { TicketsItem } from "../components/TicketsItem";
-
+import { OptionsModel } from "../reducers/filterReducer";
 interface TicketsListProps {
   ticketsList: TicketsItemProps[];
-  stopsCount: number;
   cheap: boolean;
+  options: OptionsModel;
 }
 
 export const TicketsTemplate: React.FC<TicketsListProps> = props => {
   const renderTemplate = () => {
+    let template;
     const ticketsList = applyFilterAndTabs();
-    let template = ticketsList.map((item: TicketsItemProps, idx: number) => {
-      return (
-        <TicketsItem
-          key={idx}
-          segments={item.segments}
-          price={item.price}
-          carrier={item.carrier}
-        />
-      );
-    });
+    if (ticketsList.length !== 0) {
+      template = ticketsList.map((item: TicketsItemProps, idx: number) => {
+        return (
+          <TicketsItem
+            key={idx}
+            segments={item.segments}
+            price={item.price}
+            carrier={item.carrier}
+          />
+        );
+      });
+    } else if (props.ticketsList.length !== 0) {
+      template = <p>Билетов с выбранными параметрами не найдено</p>;
+    }
+
     return template;
   };
 
   const applyFilterAndTabs = () => {
-    let { stopsCount, ticketsList } = props;
-    if (stopsCount === undefined) stopsCount = -1;
+    let { options } = props;
+    let { ticketsList } = props;
+
+    let stopCounts = Object.entries(options).map((item, i) => {
+      if (item[1] === true) {
+        if (i !== 0) {
+          return i - 1;
+        }
+      }
+    });
+
+    console.log(stopCounts);
+
     let newTicketList: TicketsItemProps[] = [];
 
-    if (stopsCount !== -1) {
-      ticketsList.map((item, i) => {
-        let bePushed = item.segments.every((segment, j) => {
-          if (segment.stops.length <= +stopsCount) {
-            return true;
+    ticketsList.forEach((item, i) => {
+      let bePushed = false;
+      for (let j = 0; j < 2; ++j) {
+        for (let k = 0; k < stopCounts.length; ++k) {
+          if (item.segments[j].stops.length === stopCounts[k]) {
+            bePushed = true;
           }
-          return false;
-        });
-        if (bePushed) newTicketList.push(item);
-      });
-    } else newTicketList = ticketsList;
+        }
+      }
+      if (bePushed) {
+        newTicketList.push(item);
+      }
+    });
+
     quickSort(newTicketList);
+
     return newTicketList;
   };
 

@@ -1,6 +1,5 @@
 import * as MyTypes from "MyTypes";
 import { filterActionsTypes } from "../actions/filterActions";
-import TicketsItemProps from "../types/TicketItemProps";
 export interface OptionsModel {
   all: boolean;
   non_stop: boolean;
@@ -29,8 +28,33 @@ export const filterReducer = (
 ) => {
   switch (action.type) {
     case filterActionsTypes.SET_FILTER_OPTION: {
-      let newFilterOptions;
-      let stopsCount;
+      let newFilterOptions = action.payload.filterOptions;
+
+      const checkAll = () => {
+        if (
+          Object.entries(newFilterOptions).every((item, i) => {
+            console.log(item[1]);
+            if (i === 0) {
+              return true;
+            } else if (item[1] === true) {
+              return true;
+            }
+          })
+        ) {
+          newFilterOptions = {
+            all: true,
+            non_stop: true,
+            one_stop: true,
+            two_stop: true,
+            three_stop: true
+          };
+        } else {
+          newFilterOptions = {
+            ...newFilterOptions,
+            all: false
+          };
+        }
+      };
       switch (+action.payload.clickedIndex) {
         case 0: {
           newFilterOptions = {
@@ -40,51 +64,38 @@ export const filterReducer = (
             two_stop: true,
             three_stop: true
           };
-          stopsCount = -1;
           break;
         }
         case 1: {
           newFilterOptions = {
-            all: false,
-            non_stop: true,
-            one_stop: false,
-            two_stop: false,
-            three_stop: false
+            ...newFilterOptions,
+            non_stop: !newFilterOptions.non_stop
           };
-          stopsCount = 0;
+          checkAll();
           break;
         }
         case 2: {
           newFilterOptions = {
-            all: false,
-            non_stop: true,
-            one_stop: true,
-            two_stop: false,
-            three_stop: false
+            ...newFilterOptions,
+            one_stop: !newFilterOptions.one_stop
           };
-          stopsCount = 1;
+          checkAll();
           break;
         }
         case 3: {
           newFilterOptions = {
-            all: false,
-            non_stop: true,
-            one_stop: true,
-            two_stop: true,
-            three_stop: false
+            ...newFilterOptions,
+            two_stop: !newFilterOptions.two_stop
           };
-          stopsCount = 2;
+          checkAll();
           break;
         }
         case 4: {
           newFilterOptions = {
-            all: true,
-            non_stop: true,
-            one_stop: true,
-            two_stop: true,
-            three_stop: true
+            ...newFilterOptions,
+            three_stop: !newFilterOptions.three_stop
           };
-          stopsCount = 3;
+          checkAll();
           break;
         }
         default: {
@@ -101,7 +112,7 @@ export const filterReducer = (
       return {
         ...state,
         filterOptions: newFilterOptions,
-        stopsCount: stopsCount
+        clickedIndex: action.payload.clickedIndex
       };
     }
     default: {

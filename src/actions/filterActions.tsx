@@ -1,6 +1,5 @@
 import { action } from "typesafe-actions";
 import { OptionsModel } from "../reducers/filterReducer";
-import TicketsItemProps from "../types/TicketItemProps";
 
 export enum filterActionsTypes {
   SET_FILTER_OPTION = "SET_FILTER_OPTION"
