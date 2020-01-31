@@ -36,13 +36,20 @@ export const ticketsReducer = (
     }
     case ticketsActionTypes.SORT_BY_SOME: {
       let { cheap } = state;
+      let prevSome = "cheap";
+      if (cheap === false) {
+        prevSome = "fast";
+      }
       const { some } = action.payload;
+      console.log(prevSome !== some);
+      if (prevSome !== some) {
+        const someEl = document.querySelector(`#${some}`);
+        someEl?.classList.toggle("selected");
+        makeDeselectOther(cheap, some);
+        cheap = !cheap;
+      }
 
-      const someEl = document.querySelector(`#${some}`);
-
-      someEl?.classList.toggle("selected");
-      makeDeselectOther(cheap, some);
-      return { ...state, cheap: !cheap };
+      return { ...state, cheap: cheap };
     }
     default:
       return state;
