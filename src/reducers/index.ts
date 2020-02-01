@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { ticketsReducer } from "../reducers/ticketsReducer";
+import { ticketsReducer } from "./ticketsReducer";
 import { filterReducer } from "./filterReducer";
 
 export const rootReducer = combineReducers({
