@@ -25,8 +25,7 @@ interface TicketsContainerProps {
 }
 
 class TicketsContainer extends React.Component<TicketsContainerProps> {
-  constructor(props: any) {
-    super(props);
+  componentWillMount() {
     this.props.getTickets();
   }
 
@@ -96,42 +95,7 @@ const MapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) => ({
         some
       }
     }),
-  getTickets: () => {
-    dispatch({
-      type: ticketsActionTypes.GET_TICKETS_REQUEST
-    });
-
-    return fetch("https://front-test.beta.aviasales.ru/search")
-      .then(r => {
-        return r.json();
-      })
-      .then(r => {
-        const { searchId } = r;
-        return searchId;
-      })
-      .then(id => {
-        fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${id}`)
-          .then(data => {
-            return data.json();
-          })
-          .then(result => {
-            let data = result.tickets;
-            // data.length = 5;
-
-            dispatch({
-              type: ticketsActionTypes.GET_TICKETS_SUCCESS,
-              payload: data
-            });
-            console.log(data);
-            return data;
-          })
-          .catch(date => {
-            dispatch({
-              type: ticketsActionTypes.GET_TICKETS_FAIL
-            });
-          });
-      });
-  }
+  getTickets: () => dispatch({ type: ticketsActionTypes.GET_TICKETS_REQUEST })
 });
 
 export default connect(MapStateToProps, MapDispatchToProps)(TicketsContainer);
