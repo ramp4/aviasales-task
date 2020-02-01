@@ -3,6 +3,7 @@ export function handleOptionClick(payload: any) {
   let newFilterOptions = payload.filterOptions;
   const checkAll = () => {
     if (
+      // eslint-disable-next-line array-callback-return
       Object.entries(newFilterOptions).every((item, i) => {
         if (i === 0) {
           return true;

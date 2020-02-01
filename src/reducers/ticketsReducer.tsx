@@ -1,7 +1,7 @@
 import { ticketsActionTypes } from "../actions/ticketsActions";
 import TicketsItemProps from "../types/TicketItemProps";
 import * as MyTypes from "MyTypes";
-
+import { handleSort } from "../utils/handleSort";
 interface TicketsModel {
   ticketsList: TicketsItemProps[];
   isFetching: boolean;
@@ -35,28 +35,12 @@ export const ticketsReducer = (
       return { ...state, isFailed: true, isFetching: false };
     }
     case ticketsActionTypes.SORT_BY_SOME: {
-      let { cheap } = state;
+      const { cheap } = state;
       const { some } = action.payload;
 
-      const someEl = document.querySelector(`#${some}`);
-
-      someEl?.classList.toggle("selected");
-      makeDeselectOther(cheap, some);
-      return { ...state, cheap: !cheap };
+      return { ...state, cheap: handleSort(cheap, some) };
     }
     default:
       return state;
-  }
-};
-
-const makeDeselectOther = (cheap: boolean, some: string) => {
-  if (some === "fast") {
-    cheap = false;
-    const otherEl = document.querySelector(`#cheap`);
-    otherEl?.classList.toggle("selected");
-  } else {
-    cheap = true;
-    const otherEl = document.querySelector(`#fast`);
-    otherEl?.classList.toggle("selected");
   }
 };
