@@ -7,14 +7,16 @@ import * as MyTypes from "MyTypes";
 import { OptionsModel } from "../reducers/filterReducer";
 import { filterActionsTypes } from "../actions/filterActions";
 import "./FilterContainer.scss";
+
 interface FilterContainerProps {
   filterOptions: OptionsModel;
   setOptions: (filterOptions: OptionsModel, clickedIndex: number) => object;
 }
 
 const FilterContainer: React.FC<FilterContainerProps> = props => {
-  const handleOptionChange = (e: any) => {
-    let { id } = e.currentTarget;
+  const handleOptionChange = (e: Event) => {
+    const id = +(e.currentTarget as Element).id;
+    console.log(typeof e.currentTarget);
     props.setOptions(props.filterOptions, id);
   };
 

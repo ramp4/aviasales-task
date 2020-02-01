@@ -5,10 +5,8 @@ import { callApi } from "../utils/api";
 
 function* handleFetch() {
   try {
-    // To call async functions, use redux-saga's `call()`.
     const res = yield call(callApi);
-    console.log(res);
-
+    res.tickets.length = 5;
     if (res.error) {
       yield put(ticketsActions.getTicketsFail());
     } else {
@@ -19,13 +17,10 @@ function* handleFetch() {
   }
 }
 
-// This is our watcher function. We use `take*()` functions to watch Redux for a specific action
-// type, and run our saga, for example the `handleFetch()` saga above.
 function* watchFetchRequest() {
   yield takeEvery(ticketsActionTypes.GET_TICKETS_REQUEST, handleFetch);
 }
 
-// We can also use `fork()` here to split our saga into multiple watchers.
 function* getTicketsSaga() {
   yield all([fork(watchFetchRequest)]);
 }

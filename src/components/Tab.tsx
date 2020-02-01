@@ -1,7 +1,8 @@
 import * as React from "react";
+import { MouseEvent } from "react";
 import "./Tab.scss";
 interface TabProps {
-  onClickHandler: (e: any) => void;
+  onClickHandler: (event: MouseEvent) => void;
   id: string;
   innerText: string;
   classType: string;

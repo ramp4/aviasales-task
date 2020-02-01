@@ -13,6 +13,7 @@ import "./TicketsContainer.scss";
 
 import { OptionsModel } from "../reducers/filterReducer";
 import Tab from "../components/Tab";
+import { MouseEvent } from "react";
 
 interface TicketsContainerProps {
   ticketsList: TicketsItemProps[];
@@ -29,9 +30,9 @@ class TicketsContainer extends React.Component<TicketsContainerProps> {
     this.props.getTickets();
   }
 
-  handleTabClick = (e: any) => {
-    let some = e.currentTarget.id;
-    e.preventDefault();
+  handleTabClick = (event: MouseEvent) => {
+    let some = (event.currentTarget as Element).id;
+    event.preventDefault();
     this.props.sortBySome(some);
   };
 

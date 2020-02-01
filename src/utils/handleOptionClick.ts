@@ -1,4 +1,11 @@
-export function handleOptionClick(payload: any) {
+import { OptionsModel } from "../reducers/filterReducer";
+
+interface payloadModel {
+  filterOptions: OptionsModel;
+  clickedIndex: number;
+}
+
+export function handleOptionClick(payload: payloadModel) {
   const clickedIndex = payload.clickedIndex;
   let newFilterOptions = payload.filterOptions;
   const checkAll = () => {
