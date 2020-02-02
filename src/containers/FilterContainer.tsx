@@ -16,7 +16,6 @@ interface FilterContainerProps {
 const FilterContainer: React.FC<FilterContainerProps> = props => {
   const handleOptionChange = (e: Event) => {
     const id = +(e.currentTarget as Element).id;
-    console.log(typeof e.currentTarget);
     props.setOptions(props.filterOptions, id);
   };
 

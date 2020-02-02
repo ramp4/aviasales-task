@@ -15,14 +15,30 @@ export const TicketsTemplate: React.FC<TicketsListProps> = props => {
     const ticketsList = applyFilterAndTabs();
     if (ticketsList.length !== 0) {
       template = ticketsList.map((item: TicketsItemProps, idx: number) => {
-        return (
-          <TicketsItem
-            key={idx}
-            segments={item.segments}
-            price={item.price}
-            carrier={item.carrier}
-          />
-        );
+        const generateKey = (item: TicketsItemProps) => {
+          const date_1 = new Date(item.segments[0].date);
+          const date_2 = new Date(item.segments[1].date);
+          const ml_1 = date_1.getTime();
+          const ml_2 = date_2.getTime();
+          const h_1 = date_1.getHours() * 123;
+          const h_2 = date_2.getHours() * 123;
+
+          const duration_1 = item.segments[0].duration;
+          const duration_2 = item.segments[0].duration;
+          const stops_0 = Math.pow(item.segments[0].stops.length, 11);
+          const stops_1 = Math.pow(item.segments[1].stops.length, 22);
+          const key =
+            ml_1 +
+            ml_2 +
+            duration_1 +
+            duration_2 +
+            stops_0 +
+            stops_1 +
+            h_1 +
+            h_2;
+          return key;
+        };
+        return <TicketsItem data={item} key={generateKey(item)} />;
       });
     } else if (props.ticketsList.length !== 0) {
       template = <p>Билетов с выбранными параметрами не найдено</p>;

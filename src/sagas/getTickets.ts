@@ -6,7 +6,6 @@ import { callApi } from "../utils/api";
 function* handleFetch() {
   try {
     const res = yield call(callApi);
-    res.tickets.length = 50;
     if (res.error) {
       yield put(ticketsActions.getTicketsFail());
     } else {

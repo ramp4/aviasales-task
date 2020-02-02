@@ -3,7 +3,12 @@ import TicketsItemProps from "../types/TicketItemProps";
 import "./TicketsItem.scss";
 import moment, { Moment } from "moment";
 
-export const TicketsItem: React.FC<TicketsItemProps> = props => {
+interface TicketsItemModel {
+  data: TicketsItemProps;
+  key: number;
+}
+
+export const TicketsItem: React.FC<TicketsItemModel> = props => {
   function appearDate(date: string, duration: number, durationDif: boolean) {
     let departureDate = moment(date);
     let arrivalDate = moment(date).add(duration, "minutes");
@@ -78,22 +83,22 @@ export const TicketsItem: React.FC<TicketsItemProps> = props => {
 
   return (
     <div className="ticket">
-      <p className="ticket__price">{`${props.price} Р`}</p>
+      <p className="ticket__price">{`${props.data.price} Р`}</p>
       <img
         className="ticket__carrier"
-        src={`http://pics.avs.io/440/144/${props.carrier}.png`}
-        alt={props.carrier}
+        src={`http://pics.avs.io/440/144/${props.data.carrier}.png`}
+        alt={props.data.carrier}
       ></img>
-      {props.segments.map((item, index) => {
+      {props.data.segments.map((item, index) => {
         return (
-          <div key={index} className="segment">
+          <div className="segment" key={index}>
             <p className="flight">
-              <span className="flight__title title">{`${props.segments[index].origin} - ${props.segments[index].destination}`}</span>
+              <span className="flight__title title">{`${props.data.segments[index].origin} - ${props.data.segments[index].destination}`}</span>
               <br />
               <span className="flight__info info">
                 {appearDate(
-                  props.segments[index].date,
-                  props.segments[index].duration,
+                  props.data.segments[index].date,
+                  props.data.segments[index].duration,
                   false
                 )}
               </span>
@@ -103,19 +108,19 @@ export const TicketsItem: React.FC<TicketsItemProps> = props => {
               <br />
               <span className="duration__info info">
                 {appearDate(
-                  props.segments[index].date,
-                  props.segments[index].duration,
+                  props.data.segments[index].date,
+                  props.data.segments[index].duration,
                   true
                 )}
               </span>
             </p>
             <p className="stops">
               <span className="stops__title title">
-                {renderStops(props.segments[index].stops.length)}
+                {renderStops(props.data.segments[index].stops.length)}
               </span>
               <br />
               <span className="stops__info info">
-                {props.segments[index].stops.join(", ")}
+                {props.data.segments[index].stops.join(", ")}
               </span>
             </p>
           </div>
